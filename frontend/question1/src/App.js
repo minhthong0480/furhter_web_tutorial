@@ -1,10 +1,9 @@
-// import './App.css';
-import Test1Q2 from './Test1Q2';
+import Counter from "./Counter";
 
 function App() {
   return (
     <div className="App">
-      <Test1Q2 />
+      <Counter />
     </div>
   );
 }
