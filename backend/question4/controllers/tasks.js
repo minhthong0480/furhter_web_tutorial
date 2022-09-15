@@ -14,9 +14,9 @@ const createTasks = async (req, res) => {
 
 const updateTasks = async (req, res) => {
   Tasks.findOneAndUpdate(
-    { _id: req.params.id },
-    { name: req.body.name },
-    { status: req.body.status },
+    {_id:req.params.id},
+    { name: req.body.name ,
+     status: req.body.status },
     function (err, tasks) {
       res.send(tasks);
     }

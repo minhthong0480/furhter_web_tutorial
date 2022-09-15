@@ -3,6 +3,7 @@ export default function Task(){
   const [data, setData] = useState([])
   const [id, setId] = useState("")
   const [name, setName] = useState("")
+  const [status, setStatus] = useState('')
   const URL = "http://localhost:9000/tasks"
  
   const load = ()=>{
@@ -50,6 +51,35 @@ export default function Task(){
       setId('')
       setName('')
   }
+
+  const reopen = (item)=>{
+    fetch(URL, {
+        method: "put",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: item._id, name: item.name, status:'completed'})
+     })
+    .then(res=>{
+        console.log(res)
+        load()
+    })
+  }
+
+  const completed = (item)=>{
+    fetch(URL, {
+        method: "put",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: item._id, name: item.name, status:'On-going'})
+     })
+    .then(res=>{
+        console.log(res)
+        load()
+    })
+  }
+
   const deleteTask = (id)=>{
       fetch(URL + "/" + id, {
           method: "delete"
@@ -70,16 +100,20 @@ export default function Task(){
           <button onClick={()=>save()}>Save</button>
           <button onClick={()=>addnew()}>Add new</button>
           <h1>List of tasks</h1>
-          <table className="table">
+          Filter: <button>All</button><button>Completed</button><button>On-Going</button>
+          <ul>
           {data.map((item)=>
-              <tr>
+              <li>
                   <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td><button onClick={()=>edit(item._id, item.name)}>Edit</button></td>
-                  <td><button onClick={()=>deleteTask(item._id)}>Delete</button></td>
-              </tr>
+                  <td>{item.name} - {item.status}</td>
+                  <td>
+                    {item.status == 'completed'?(<button onClick={()=>reopen(item)}>Re-Open</button>):(<button onClick={()=>completed(item)}>Complete</button>)
+                    }
+                  </td>
+                  {/* <td><button onClick={()=>deleteTask(item._id)}>Delete</button></td> */}
+              </li>
           )}
-          </table>
+          </ul>
       </div>
   )
 }
