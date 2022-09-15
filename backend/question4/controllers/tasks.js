@@ -12,15 +12,11 @@ const createTasks = async (req, res) => {
   });
 };
 
-const updateTasks = async (req, res) => {
-  Tasks.findOneAndUpdate(
-    {_id:req.params.id},
-    { name: req.body.name ,
-     status: req.body.status },
-    function (err, tasks) {
-      res.send(tasks);
-    }
-  );
+const updateTasks = (req, res) => {
+  Tasks.findOneAndUpdate({ _id: req.body.id }, { name: req.body.name, status: req.body.status },
+    function (err, result) {
+      res.send(result);
+    });
 };
 
 const deleteTasks = async (req, res) => {
